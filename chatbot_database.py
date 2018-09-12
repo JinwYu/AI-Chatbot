@@ -36,7 +36,30 @@ def find_parent(pid): #set a comment as "parent" with parent_id
 # -------------------------------Needs to be defined for [part 3]--------------------------
 
 # -------------------------------Needs to be defined for [part 4]--------------------------
+def find_existing_score(pid): #find a reply for the parent comment
+    try:
+        sql =  "SELECT score FROM parent_reply WHERE parent_id = '{}' LIMIT 1".format(pid) #check upvotes dvs "score" med parent_id
+        c.execute(sql)
+        result = c.fetchone() #set result as fetchone, no idea what fetchone is
+        if result != None:
+            return result[0] #selecting one comment
+        else: return False
+    except Exception as e:
+        print(str(e))
+        return False #return false if anything goes wrong
 
+#avoid long comments, short comments and comments that has been deleted or removed
+def acceptable(data): #take in the data which is the comment
+    if len(data.split(' ')) > 50 or len(data) < 1:
+        return False
+    elif len(data) > 1000:
+        return False
+    elif data == '[deleted]':
+        return False
+    elif data == '[removed]':
+        return False
+    else:
+        return True
 # -------------------------------Needs to be defined for [part 4]--------------------------
 
     
@@ -75,11 +98,16 @@ if __name__ == '__main__':
 
 
 # ---------------------------------Start of [PART 4]--------------------------------------
-#-------------Filter/restrict comments - only use good comments---------------------------
+# -------------Filter/restrict comments - only use good comments---------------------------
 
-
+            if score >= 2: #only use comments with 2+ upvotes
+                existing_comment_score = find_existing_score(parent_id) #function need to be defined
+                #if parent comment already has a reply compare with the current comments upvote
+                if existing_comment_score: #if it has any value it will be true
+                    if score > existing_comment_score: #if reply has better upvote
+                                                
 # ---------------------------------Start of [PART 4]--------------------------------------
 
 
 
-
+    
