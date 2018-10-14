@@ -19,7 +19,6 @@ def create_table():
               (parent_id TEXT PRIMARY KEY, comment_id TEXT UNIQUE, parent TEXT,
               comment TEXT, subreddit TEXT, unix INT, score INT)""")
 
-# -------------------------------Needs to be defined for [part 3]--------------------------- 
 
 def format_data(data): #take in data
     data = data.replace('\n', ' newlinechar ' ).replace('\r', ' newlinechar ' ).replace('"', "'") #get rid of new lines, return and doubleqoute dvs "
@@ -37,9 +36,7 @@ def find_parent(pid): #set a comment as "parent" with parent_id
         #print(str(e))
         return False #return false if anything goes wrong
     
-# -------------------------------Needs to be defined for [part 3]--------------------------
 
-# -------------------------------Needs to be defined for [part 4]--------------------------
 def find_existing_score(pid): #find a reply for the parent comment
     try:
         sql =  "SELECT score FROM parent_reply WHERE parent_id = '{}' LIMIT 1".format(pid) #check upvotes dvs "score" med parent_id
@@ -64,11 +61,9 @@ def acceptable(data): #take in the data which is the comment
         return False
     else:
         return True
-# -------------------------------Needs to be defined for [part 4]--------------------------
 
-# -------------------------------Needs to be defined for [part 5]--------------------------
 
-    #takes in sql statement and keeps building until it reaches a certain size
+#takes in sql statement and keeps building until it reaches a certain size
 def transaction_bldr(sql):
     global sql_transaction
     sql_transaction.append(sql)
@@ -108,13 +103,13 @@ def sql_insert_no_parent(commentid,parentid,comment,subreddit,time,score):
         transaction_bldr(sql)
     except Exception as e:
         print('s-NO_PARENT insertion',str(e))
-# -------------------------------Needs to be defined for [part 5]--------------------------
+
     
 # Create table if it doesn't exist.
 if __name__ == '__main__':
     create_table()
 
-# --------------------------Start of [PART 3]---------------------------------------------
+
 #------------------------We want to buffer through the data-------------------------------
 
     row_counter = 0 #feedback: how far we come when buffering the data 
@@ -122,8 +117,6 @@ if __name__ == '__main__':
     
 # The address to the database that stores the comments:
 # byt "/" till "\\" och skapa en map som kallas för 2015 där filerna "RC_2015-01" ska ligga i
-# [Martin] - "C:\\Users\\Martin\\Desktop\\AI_KURS\\Reddit_comment_database\\{}\\RC_{}"  
-# [Jinwoo] -
 
 # make use of buffering parameters because the file are too large - work with chunks    
     with open ("C:\\Users\\Martin\\Desktop\\AI_KURS\\Reddit_comment_database\\{}\\RC_{}".format(timeframe.split('-')[0], timeframe), buffering=1000) as f:
@@ -145,10 +138,6 @@ if __name__ == '__main__':
                     #not all comments are parent => need to set parent
                     parent_data = find_parent(parent_id) #function need to be defined
 
-# ---------------------------------End of [PART 3]---------------------------------------- 
-
-
-# ---------------------------------Start of [PART 4 and Continue to PART 5]--------------------------------------
 # -------------Filter/restrict comments - only use good comments---------------------------
 
            
@@ -184,5 +173,3 @@ if __name__ == '__main__':
                     connection.commit()
                     c.execute("VACUUM")
                     connection.commit()
-                          
-# ---------------------------------Start of [PART 4 and Continue to PART 5]--------------------------------------
