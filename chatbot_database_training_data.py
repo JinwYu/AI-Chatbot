@@ -41,3 +41,4 @@ for timeframe in timeframes:
         if counter % 20 == 0: #every 100 thousand row completed (because our limit is set to 5000) print the result in the while statement above
             print(counter*limit, 'rows completed so far')
  
+#end of program
